@@ -410,6 +410,20 @@ func QueryAuthenticationStatusProcedure(collName string, ueId string) (*map[stri
 	return &data, nil
 }
 
+func HandleDeleteAuthenticationStatus(request *httpwrapper.Request) *httpwrapper.Response {
+	logger.DataRepoLog.Infof("Handle DeleteAuthenticationStatus")
+
+	ueId := request.Params["ueId"]
+	collName := "subscriptionData.authenticationData.authenticationStatus"
+	DeleteAuthenticationStatusProcedure(collName, ueId)
+	return httpwrapper.NewResponse(http.StatusNoContent, nil, map[string]interface{}{})
+}
+
+func DeleteAuthenticationStatusProcedure(collName string, ueId string) {
+	filter := bson.M{"ueId": ueId}
+	deleteDataFromDB(collName, filter)
+}
+
 func HandleApplicationDataInfluenceDataGet(queryParams map[string][]string) *httpwrapper.Response {
 	logger.DataRepoLog.Infof("Handle ApplicationDataInfluenceDataGet: queryParams=%#v", queryParams)
 

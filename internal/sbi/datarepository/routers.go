@@ -299,6 +299,13 @@ var routes = Routes{
 	},
 
 	{
+		"HTTPDeleteAuthenticationStatus",
+		strings.ToUpper("Delete"),
+		"/subscription-data/:ueId/:servingPlmnId/authentication-status",
+		HTTPDeleteAuthenticationStatus,
+	},
+
+	{
 		"HTTPApplicationDataInfluenceDataGet",
 		strings.ToUpper("Get"),
 		"/application-data/influenceData",

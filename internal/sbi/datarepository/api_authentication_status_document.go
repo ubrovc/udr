@@ -90,3 +90,25 @@ func HTTPQueryAuthenticationStatus(c *gin.Context) {
 		c.Data(rsp.Status, "application/json", responseBody)
 	}
 }
+
+// HTTPDeleteAuthenticationStatus - To delete the Authentication Status data of a UE
+func HTTPDeleteAuthenticationStatus(c *gin.Context) {
+
+	req := httpwrapper.NewRequest(c.Request, nil)
+	req.Params["ueId"] = c.Params.ByName("ueId")
+
+	rsp := producer.HandleDeleteAuthenticationStatus(req)
+
+	responseBody, err := openapi.Serialize(rsp.Body, "application/json")
+	if err != nil {
+		logger.DataRepoLog.Errorln(err)
+		problemDetails := models.ProblemDetails{
+			Status: http.StatusInternalServerError,
+			Cause:  "SYSTEM_FAILURE",
+			Detail: err.Error(),
+		}
+		c.JSON(http.StatusInternalServerError, problemDetails)
+	} else {
+		c.Data(rsp.Status, "application/json", responseBody)
+	}
+}
